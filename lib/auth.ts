@@ -1,6 +1,5 @@
 // lib/auth.ts
 import { SignJWT, jwtVerify } from 'jose'
-import { serialize } from 'cookie'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server'
 
