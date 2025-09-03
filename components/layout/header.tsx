@@ -80,12 +80,12 @@ export function Header({ title, subtitle }: HeaderProps) {
                     Profile
                   </Button>
                   {/* </Link> */}
-                  <Link href={user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings"}>
+                  {/* <Link href={user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings"}> */}
                   <Button variant="ghost" size="sm" className="w-full justify-start">
                     <Settings className="w-4 h-4 mr-2" />
                     Settings
                   </Button>
-                  </Link>
+                  {/* </Link> */}
                   <div className="border-t border-border my-1" />
                   <Button variant="ghost" size="sm" className="w-full justify-start text-destructive" onClick={logout}>
                     <LogOut className="w-4 h-4 mr-2" />
