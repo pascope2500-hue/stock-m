@@ -8,6 +8,7 @@ import { Suspense } from "react"
 import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
 import { Toaster } from 'react-hot-toast';
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
 export const metadata: Metadata = {
   title: "Admin Dashboard",
   description: "A comprehensive admin dashboard with authentication and reusable components",
@@ -21,7 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex h-screen w-screen items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      }>
+          
         <AuthProvider>
           <Toaster />
           <ErrorBoundary>

@@ -48,12 +48,13 @@ interface Customer {
 }
 interface Sells {
     id: number;
-    customerId: number;
     userId: number;
-    inventoryId: number;
+    company: Company;
+    inventory: Inventory;
     quantity: number;
+    totalAmount: number;
     status: Status;
-    customer?: Customer;
+    customer: Customer;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -70,4 +71,7 @@ interface UserAuthPayload {
     role: Role;
     names: string;
     email: string;
+    companyName: string;
+    companyAddress: string;
 }
+

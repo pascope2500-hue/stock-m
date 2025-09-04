@@ -9,10 +9,10 @@ interface HeaderProps {
   title: string
   subtitle?: string
 }
-
+import { useRouter } from "next/navigation"
 export function Header({ title, subtitle }: HeaderProps) {
     const { user } = useAuth();
-  
+   const router = useRouter();
   const [isDark, setIsDark] = React.useState(false)
   const [showProfile, setShowProfile] = React.useState(false)
 
@@ -51,7 +51,7 @@ export function Header({ title, subtitle }: HeaderProps) {
           </Button>
 
           {/* Notifications */}
-          {/* <NotificationCenter /> */}
+          <NotificationCenter />
 
           {/* Profile Menu */}
           <div className="relative">
@@ -75,13 +75,13 @@ export function Header({ title, subtitle }: HeaderProps) {
                 </div>
                 <div className="p-2 space-y-1">
                   {/* <Link href={user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings"}> */}
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => router.push(user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings")}>
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </Button>
                   {/* </Link> */}
-                  {/* <Link href={user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings"}> */}
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  {/* <Link href={}> */}
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => router.push(user?.role === "Admin" ? "/dashboard/admin/settings" : "/dashboard/seller/settings")}>
                     <Settings className="w-4 h-4 mr-2" />
                     Settings
                   </Button>

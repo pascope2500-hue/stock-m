@@ -17,6 +17,7 @@ import {
   ChevronRight,
   ShoppingBag,
 } from "lucide-react"
+import React from "react"
 
 interface SidebarProps {
   collapsed: boolean
@@ -38,11 +39,6 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     icon: LayoutDashboard,
   },
   {
-    title: "Users",
-    href: prefix_url+"/users",
-    icon: Users,
-  },
-  {
     title: "Inventory",
     href: prefix_url+"/inventory",
     icon: ShoppingBag,
@@ -53,11 +49,28 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     icon: FileText,
   },
   {
+    title: "Report",
+    href: prefix_url+"/"+"report",
+    icon: BarChart3,
+  },
+  {
     title: "Settings",
     href: prefix_url+"/settings",
     icon: Settings,
   },
 ]
+
+React.useEffect(() => {
+  if (user?.role === "Admin") {
+  // push user on array after 0 index
+  navigationItems.splice(0, 0, {
+     title: "Users",
+    href: prefix_url+"/users",
+    icon: Users,
+  })
+}
+},[])
+
 
   return (
     <div

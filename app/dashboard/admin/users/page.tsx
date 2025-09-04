@@ -170,7 +170,6 @@ const columns: Column<Users>[] = [
               data={userss}
               columns={columns}
               searchPlaceholder="Search users..."
-              pageSize={10}
             />
           </CardContent>
         </Card>

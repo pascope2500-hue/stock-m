@@ -37,6 +37,7 @@ model Company {
   users          User[]
   inventories    Inventory[]
   customers      Customer[]
+  notifications  Notification[]
 
   @@map("companies")
 }
@@ -86,6 +87,28 @@ model Sell {
   customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@map("sells")
+}
+
+
+  model Notification {
+  id      Int   @id @default(autoincrement())
+  title   String
+  message String
+  type    NotificationType
+  timestamp DateTime @default(now())
+  read    Boolean @default(false)
+  actionUrl String?
+  entity  String
+  entityId Int
+  companyId Int
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  }
+
+enum NotificationType {
+  Info
+  Success
+  Warning
+  Error
 }
 
 enum Role {

@@ -16,7 +16,6 @@ export default function DashboardPage() {
   const [loading, setLoading] = React.useState(true)
   const {user} = useAuth();
   const router = useRouter();
-
   React.useEffect(() => {
     const fetchStats = async() => {
       setLoading(true);

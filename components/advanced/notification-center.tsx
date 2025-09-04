@@ -6,58 +6,29 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Bell, X, Check, AlertCircle, Info, CheckCircle, AlertTriangle } from "lucide-react"
+import axios from "axios"
+import toast from "react-hot-toast"
 
 export interface Notification {
-  id: string
+  id: number
   title: string
   message: string
   type: "info" | "success" | "warning" | "error"
   timestamp: Date
   read: boolean
-  actionUrl?: string
+  actionUrl?: string,
+  entity: string
+  entityId: number
 }
 
 export function NotificationCenter() {
-  const [notifications, setNotifications] = React.useState<Notification[]>([
-    {
-      id: "1",
-      title: "New User Registration",
-      message: "John Doe has registered for an account",
-      type: "info",
-      timestamp: new Date(Date.now() - 5 * 60 * 1000),
-      read: false,
-    },
-    {
-      id: "2",
-      title: "System Backup Complete",
-      message: "Daily backup completed successfully",
-      type: "success",
-      timestamp: new Date(Date.now() - 30 * 60 * 1000),
-      read: false,
-    },
-    {
-      id: "3",
-      title: "High CPU Usage",
-      message: "Server CPU usage is above 80%",
-      type: "warning",
-      timestamp: new Date(Date.now() - 60 * 60 * 1000),
-      read: true,
-    },
-    {
-      id: "4",
-      title: "Payment Failed",
-      message: "Payment processing failed for order #1234",
-      type: "error",
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      read: false,
-    },
-  ])
+  const [notifications, setNotifications] = React.useState<Notification[]>([])
 
   const [isOpen, setIsOpen] = React.useState(false)
 
   const unreadCount = notifications.filter((n) => !n.read).length
 
-  const markAsRead = (id: string) => {
+  const markAsRead = (id: number) => {
     setNotifications((prev) =>
       prev.map((notification) => (notification.id === id ? { ...notification, read: true } : notification)),
     )
@@ -67,8 +38,14 @@ export function NotificationCenter() {
     setNotifications((prev) => prev.map((notification) => ({ ...notification, read: true })))
   }
 
-  const removeNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id))
+  const removeNotification = async(id: number) => {
+    await axios.delete(`/api/notification/${id}`)
+    .then((response) => {
+      setNotifications((prev) => prev.filter((notification) => notification.id !== id))
+    })
+    .catch((error) => {
+      toast.error('there is an error while deleting notification')
+    })
   }
 
   const getIcon = (type: Notification["type"]) => {
@@ -101,16 +78,26 @@ export function NotificationCenter() {
   React.useEffect(() => {
     const interval = setInterval(() => {
       if (Math.random() > 0.7) {
-        const newNotification: Notification = {
-          id: Date.now().toString(),
-          title: "New Activity",
-          message: "A new event has occurred in the system",
-          type: ["info", "success", "warning"][Math.floor(Math.random() * 3)] as any,
-          timestamp: new Date(),
-          read: false,
-        }
-        setNotifications((prev) => [newNotification, ...prev].slice(0, 10))
+      const fetchNot = async() => {
+        await axios.get("/api/notification")
+        .then((response) => {
+          const newNotifications = response.data.map((notification: Notification) => ({
+            id: notification.id,
+            title: notification.title,
+            message: notification.message,
+            type: notification.type.toLowerCase() as Notification["type"],
+            timestamp: new Date(notification.timestamp),
+            read: false,
+            entity: notification.entity,
+            entityId: notification.entityId,
+          }))
+
+          setNotifications((prev) => [...prev, ...newNotifications].slice(0, 10))
+        })
       }
+      fetchNot();
+      }
+      
     }, 30000) // Check every 30 seconds
 
     return () => clearInterval(interval)

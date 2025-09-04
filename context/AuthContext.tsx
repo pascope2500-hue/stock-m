@@ -10,6 +10,8 @@ interface User {
   role: Role
   names: string
   email: string
+  companyName: string
+  companyAddress: string
 }
 
 interface AuthContextType {

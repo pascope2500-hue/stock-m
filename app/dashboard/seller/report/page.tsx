@@ -34,7 +34,7 @@ export default function OrdersPage() {
       <div className="flex items-center space-x-3">
         <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
           <span className="text-sm font-medium text-accent-foreground">
-            {customer.customerName.split(" ")[0].charAt(0).toUpperCase() + (customer.customerName.split(" ")[1]?.charAt(0)?.toUpperCase() || "")}
+            {customer.customerName.split(" ")[0].charAt(0).toUpperCase() +(customer.customerName.split(" ")[1]?.charAt(0)?.toUpperCase() || "")}
           </span>
         </div>
         <div>
@@ -213,13 +213,13 @@ export default function OrdersPage() {
                 >
                   <Printer className="h-4 w-4 mr-2" /> Print
                 </Button> */}
-                <Button
+                {/* <Button
                   className="cursor-pointer"
                   onClick={() => router.push("/dashboard/admin/sales/new")}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Order
-                </Button>
+                </Button> */}
               </div>
             </div>
           </CardHeader>
@@ -229,7 +229,7 @@ export default function OrdersPage() {
               columns={columns}
               searchPlaceholder="Search from sales..."
               printTitle="Sales Report"
-              // onSelectRange={handleSelectRange}
+              onSelectRange={handleSelectRange}
             />
           </CardContent>
         </Card>

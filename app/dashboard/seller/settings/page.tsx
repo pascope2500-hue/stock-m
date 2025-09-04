@@ -1,21 +1,15 @@
-"use client";
+"use client"
 
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, type TabItem } from "@/components/ui/tabs";
-import { ThemeSwitcher } from "@/components/advanced/theme-switcher";
-import { ReusableForm } from "@/components/ReusableForm";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { useAuth } from "@/context/AuthContext";
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, type TabItem } from "@/components/ui/tabs"
+import { ThemeSwitcher } from "@/components/advanced/theme-switcher"
+import { ReusableForm } from "@/components/ReusableForm"
+import toast from "react-hot-toast"
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
+
 interface Company {
   id: number;
   name: string;
@@ -29,14 +23,14 @@ interface Company {
 export default function SettingsPage() {
   const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+
   useEffect(() => {
     fetchCompanyProfile();
   }, []);
 
   const fetchCompanyProfile = async () => {
     try {
-      const response = await axios.get("/api/company");
+      const response = await axios.get('/api/company');
       setCompany(response.data);
     } catch (error) {
       toast.error("Failed to fetch company profile");
@@ -49,7 +43,7 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <ThemeSwitcher />
     </div>
-  );
+  )
 
   const securityTab = (
     <div className="space-y-6">
@@ -69,7 +63,7 @@ export default function SettingsPage() {
                 type: "password",
                 placeholder: "Enter current password",
                 required: true,
-                explanation: "Enter your current password to confirm changes",
+                explanation: "Enter your current password to confirm changes"
               },
               {
                 label: "New Password",
@@ -84,46 +78,42 @@ export default function SettingsPage() {
                 required: true,
                 type: "password",
                 placeholder: "Confirm new password",
-              },
+              }
             ]}
             initialValues={{
               currentPassword: "",
               newPassword: "",
-              confirmNewPassword: "",
+              confirmNewPassword: ""
             }}
             onSubmit={async (values) => {
               if (values.newPassword !== values.confirmNewPassword) {
-                return toast.error("Passwords do not match");
+                return toast.error("Passwords do not match")
               }
-              await axios
-                .put("/api/users/edit", values)
+              await axios.put('/api/users/edit', values)
                 .then(() => {
-                  toast.success("Password updated successfully");
+                  toast.success("Password updated successfully")
                 })
                 .catch((err) => {
-                  toast.error(err.response.data.message);
-                });
+                  toast.error(err.response.data.message)
+                })
             }}
           />
         </CardContent>
       </Card>
     </div>
-  );
+  )
 
   const companyTab = (
-    user?.role === "Admin"&&(
     <div className="space-y-6">
       <Card>
         <CardHeader>
           <CardTitle>Company Profile</CardTitle>
-          <CardDescription>
-            Manage your company information and settings
-          </CardDescription>
+          <CardDescription>Manage your company information and settings</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {loading ? (
             <div className="flex justify-center items-center">
-              <LoadingSpinner />
+              <LoadingSpinner/>
             </div>
           ) : (
             <ReusableForm
@@ -142,8 +132,7 @@ export default function SettingsPage() {
                   name: "logo",
                   type: "text",
                   placeholder: "Enter logo URL",
-                  explanation:
-                    "Provide a direct link to your company logo image",
+                  explanation: "Provide a direct link to your company logo image"
                 },
                 {
                   label: "Address",
@@ -151,7 +140,7 @@ export default function SettingsPage() {
                   type: "textarea",
                   placeholder: "Enter company address",
                   required: true,
-                  explanation: "Enter the physical address of your company",
+                  explanation: "Enter the physical address of your company"
                 },
                 {
                   label: "Low Stock Level",
@@ -159,41 +148,34 @@ export default function SettingsPage() {
                   type: "number",
                   placeholder: "Enter low stock threshold",
                   required: true,
-                  explanation:
-                    "Minimum stock level before triggering low stock alerts",
-                },
+                  explanation: "Minimum stock level before triggering low stock alerts"
+                }
               ]}
               initialValues={{
                 name: company?.name || "",
                 logo: company?.logo || "",
                 address: company?.address || "",
-                lowStockLevel: company?.lowStockLevel || 10,
+                lowStockLevel: company?.lowStockLevel || 10
               }}
               onSubmit={async (values) => {
                 try {
-                  const response = company
-                    ? await axios.put("/api/company", values)
-                    : await axios.post("/api/company", values);
-
+                  const response = company 
+                    ? await axios.put('/api/company', values)
+                    : await axios.post('/api/company', values);
+                  
                   setCompany(response.data);
                   toast.success("Company profile updated successfully");
                 } catch (error: any) {
-                  toast.error(
-                    error.response?.data?.message ||
-                      "Failed to update company profile"
-                  );
+                  toast.error(error.response?.data?.message || "Failed to update company profile");
                 }
               }}
-              submitButtonText={
-                company ? "Update Company Profile" : "Create Company Profile"
-              }
+              submitButtonText={company ? "Update Company Profile" : "Create Company Profile"}
             />
           )}
         </CardContent>
       </Card>
     </div>
-    )
-  );
+  )
 
   const tabItems: TabItem[] = [
     {
@@ -206,21 +188,16 @@ export default function SettingsPage() {
       label: "Security",
       content: securityTab,
     },
-  ];
-  if (user?.role === "Admin") {
-    tabItems.push({
+    {
       id: "company",
       label: "Company Profile",
       content: companyTab,
-    });
-  }
+    }
+  ]
 
   return (
-    <DashboardLayout
-      title="Settings"
-      subtitle="Configure your application preferences and account settings"
-    >
+    <DashboardLayout title="Settings" subtitle="Configure your application preferences and account settings">
       <Tabs items={tabItems} defaultValue="appearance" />
     </DashboardLayout>
-  );
+  )
 }

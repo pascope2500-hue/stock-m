@@ -12,6 +12,21 @@ export async function POST(req: NextRequest) {
       where: {
         email: email,
       },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        role: true,
+        firstName: true,
+        lastName: true,
+        companyId: true,
+        company: {
+          select: {
+            name: true,
+            address: true
+          },
+        }
+      }
     });
 
     if (!user) {
@@ -29,7 +44,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const token = generateToken({ id: user.id, role: user.role, companyId: user.companyId, names: user.firstName + " " + user.lastName, email: user.email });
+    const token = generateToken({ id: user.id, role: user.role, companyId: user.companyId, names: user.firstName + " " + user.lastName, email: user.email, companyName: user.company.name, companyAddress: user.company.address ?? "" });
     // Create response with user data
     const response = NextResponse.json(
       {
