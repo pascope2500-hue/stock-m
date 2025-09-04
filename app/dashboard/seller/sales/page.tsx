@@ -248,8 +248,8 @@ export default function OrdersPage() {
               0
             )}
             onClose={() => setSelectedSales([])}
-            companyName={selectedSales[0].company.name}
-            companyAddress={selectedSales[0].company.address}
+            companyName={selectedSales[0]?.company?.name}
+            companyAddress={selectedSales[0]?.company?.address}
           />
         )}
       </div>

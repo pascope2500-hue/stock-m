@@ -215,7 +215,7 @@ export default function OrdersPage() {
                 </Button> */}
                 <Button
                   className="cursor-pointer"
-                  onClick={() => router.push("/dashboard/admin/sales/new")}
+                  onClick={() => router.push("/dashboard/seller/sales/new")}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Order
@@ -248,8 +248,8 @@ export default function OrdersPage() {
               0
             )}
             onClose={() => setSelectedSales([])}
-            companyName={selectedSales[0].company.name}
-            companyAddress={selectedSales[0].company.address}
+            companyName={selectedSales[0]?.company?.name}
+            companyAddress={selectedSales[0]?.company?.address}
           />
         )}
       </div>

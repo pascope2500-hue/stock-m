@@ -468,6 +468,8 @@ export default function OrdersPage() {
             onClose={async () => {
               setShowReceipt(false);
               setOrderItems([]);
+              setCustomerName('');
+              setCustomerPhone('');
               await fetchInventory();
             }}
           />
