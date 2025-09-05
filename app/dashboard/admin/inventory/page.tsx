@@ -21,6 +21,8 @@ import { Modal } from "@/components/ui/modal";
 import { ReusableForm } from "@/components/ReusableForm";
 import axios from "axios";
 import toast from "react-hot-toast";
+import FileUploader from "@/lib/FileUploader";
+import DocFileUploader from "@/lib/DocFileUploader";
 export default function OrdersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   type Invent = Omit<Inventory, "companyId" | "createdAt" | "updatedAt">;
@@ -28,6 +30,7 @@ export default function OrdersPage() {
   const [selectedInventory, setSelectedInventory] = useState<Invent | null>(
     null
   );
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const columns: Column<Inventory>[] = [
     {
@@ -129,8 +132,9 @@ export default function OrdersPage() {
   };
   
 
-  const handleExport = async (options: any) => {
-    window.print();
+  const handleImport = async (doc: any) => {
+    console.log(doc);
+    
   };
 
   const fetchInventory = async () => {
@@ -169,6 +173,10 @@ export default function OrdersPage() {
     }
   };
 
+  const onCloseImportModal = () => {
+    setIsImportModalOpen(false);
+  }
+
   return (
     <DashboardLayout
       title="Inventory"
@@ -183,10 +191,10 @@ export default function OrdersPage() {
                 <CardDescription>Manage and modify product</CardDescription>
               </div>
               <div className="flex items-center space-x-2">
-                {/* <Button variant="outline" onClick={handleExport} className="cursor-pointer">
+                <Button variant="outline" onClick={()=> setIsImportModalOpen(true)} className="cursor-pointer">
                   <Printer className="h-4 w-4 mr-2" />
-                  Export
-                </Button> */}
+                  Import
+                </Button>
                 <Button
                   onClick={() => {
                     setIsModalOpen(true);
@@ -282,6 +290,33 @@ export default function OrdersPage() {
           submitButtonText={selectedInventory ? "Update" : "Create"}
         />
       </Modal>
+      {/* <Modal isOpen={isImportModalOpen} onClose={onCloseImportModal} size="lg" title="Import Inventory"> */}
+        {/* <div className="flex flex-col items-center justify-center space-y-4">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <div className="flex flex-col items-center justify-center space-y-2">
+              <div className="flex items-center space-x-2">
+                <Printer className="h-4 w-4 mr-2" />
+                <h3 className="text-lg font-semibold">Import Inventory</h3>
+              </div>
+              <p className="text-sm text-gray-500">
+                Import inventory from a CSV file. The file should have the following columns: sku, productName,
+                purchasePrice, sellingPrice, quantity, purchaseDate, expirationDate.
+              </p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Printer className="h-4 w-4 mr-2" />
+              <h3 className="text-lg font-semibold">Export Inventory</h3>
+            </div>
+            <p className="text-sm text-gray-500">
+              Export inventory to a CSV file. The file will have the following columns: sku, productName,
+              purchasePrice, sellingPrice, quantity, purchaseDate, expirationDate.
+            </p>
+          </div>
+        </div> */}
+
+        {/* <DocFileUploader maxFiles={1} onUpload={handleImport} /> */}
+      {/* </Modal> */}
+      
     </DashboardLayout>
   );
 }
