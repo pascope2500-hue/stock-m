@@ -23,8 +23,6 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest,  { params }: { params: { id: string } }) {
     try{
-        // get id
-     console.log('this id',params);
         const id = params.id;
         if(!id){
             return NextResponse.json({message: 'Id is not found'});

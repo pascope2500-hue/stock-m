@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-export async function DELETE(request: NextRequest, params: { params: { id: string } }) {
+export async function DELETE(request: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
     try {
         const userId = request.headers.get("x-user-id");
+        const role = request.headers.get("x-user-role");
         if (!userId) {
             return new Response("Unauthorized", {
                 status: 401,
@@ -11,11 +12,12 @@ export async function DELETE(request: NextRequest, params: { params: { id: strin
                 }
             })
         }
-        const { id } = params.params;
-        const sale = await prisma.sell.delete({
+
+         const { id } = await params;
+        const sale = await prisma.sell.deleteMany({
             where: {
                 id: parseInt(id),
-                userId: parseInt(userId)
+                userId: role ==="Admin" ? undefined : parseInt(userId)
             }
         })
         return new Response(JSON.stringify(sale), {
@@ -74,7 +76,7 @@ export async function GET(request: NextRequest, params: { params: { range: Range
     try {
         const companyId = request.headers.get("x-company-id");
         const userId = request.headers.get("x-user-id");
-        const role = request.headers.get("x-user-id");
+        const role = request.headers.get("x-user-role");
         
         if (!companyId || !userId || !role) {
             return NextResponse.json({ error: "Company ID, User ID, and Role are required" }, { status: 400 })

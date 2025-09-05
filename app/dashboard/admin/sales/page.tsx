@@ -127,12 +127,13 @@ export default function OrdersPage() {
                 .delete(`/api/sales/${id}`)
                 .then((data) => {
                   if (data.status === 200) {
+                    fetchSales();
                     toast.success("Order deleted successfully", {
                       id: "order-deleted",
                     });
-                    sales.filter((sale) => sale.id !== id);
-                    router.refresh();
+                    
                   }
+                  
                 })
                 .catch((error) => {
                   toast.error("Failed to delete order", {
@@ -159,14 +160,14 @@ export default function OrdersPage() {
       setSelectedSales(filtered);
     }
   };
-
-  useEffect(() => {
     const fetchSales = async () => {
       toast.loading("Loading sales...", { id: "loading-sales" });
       const sales = await axios.get("/api/sales");
       setSales(sales.data);
       toast.dismiss("loading-sales");
     };
+  useEffect(() => {
+
     fetchSales();
   }, []);
   const items: OrderItem[] = selectedSales.map((sale) => ({

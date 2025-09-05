@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     try {
         const companyId = request.headers.get("x-company-id");
         const userId = request.headers.get("x-user-id");
-        const role = request.headers.get("x-user-id");
+        const role = request.headers.get("x-user-role");
         if (!companyId || !userId || !role) {
             return NextResponse.json({ error: "Company ID, User ID, and Role are required" }, { status: 400 })
         }
