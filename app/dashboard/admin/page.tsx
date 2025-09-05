@@ -22,13 +22,22 @@ export default function DashboardPage() {
       setLoading(true);
       await axios.get('/api/stats')
       .then((response) => {
+        console.log(response);
+        
         // totalProd, lowStock, totalExpired, totalRevenue
       setLowSt(response.data.lowStock);
       setExpired(response.data.totalExpired);
       setRevenue(response.data.totalRevenue);
       setTotalProducts(response.data.totalProd);
       setSales(response.data.totalSales);
-    }).finally(()=> {
+    })
+    .catch((error) =>
+      {
+        console.log(error);
+        
+      }
+      )
+    .finally(()=> {
       setLoading(false);
     })
     }

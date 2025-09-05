@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 export async function GET(request: NextRequest) {
     const companyId = request.headers.get("x-company-id");
     const userId = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-id");
+    const role = request.headers.get("x-user-role");
 
     // get total product, low stock, total expired and total revenue
     const last_month = new Date();
@@ -63,6 +63,9 @@ export async function GET(request: NextRequest) {
             }
         });
         const totalRevenueSum = totalRevenue.reduce((acc, curr) => acc + curr.totalAmount, 0);
+
+      
+        
         return NextResponse.json({ totalProd, lowStock, totalExpired, totalRevenue: totalRevenueSum, totalSales: totalRevenue.length }, { status: 200 });
     } catch (err) {
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
