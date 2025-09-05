@@ -140,14 +140,14 @@ export default function LoginPage() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <Link
                 href="/auth/forgot-password"
                 className="text-sm text-accent hover:text-accent/80 transition-colors"
               >
                 Forgot password?
               </Link>
-            </div>
+            </div> */}
 
             <Button
               type="submit"
@@ -164,7 +164,7 @@ export default function LoginPage() {
               )}
             </Button>
 
-            <div className="text-center text-sm text-muted-foreground">
+            {/* <div className="text-center text-sm text-muted-foreground">
               Don't have an account?{" "}
               <Link
                 href="/auth/register"
@@ -172,7 +172,7 @@ export default function LoginPage() {
               >
                 Sign up
               </Link>
-            </div>
+            </div> */}
           </form>
         </CardContent>
       </Card>
