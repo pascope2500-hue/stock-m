@@ -29,8 +29,9 @@ export default function RootLayout({
           
         <AuthProvider>
           <Toaster />
-          <ErrorBoundary>
-            {children}</ErrorBoundary>
+          {/* <ErrorBoundary> */}
+            {children}
+            {/* </ErrorBoundary> */}
           </AuthProvider>
         </Suspense>
         <Analytics />

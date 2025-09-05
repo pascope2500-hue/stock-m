@@ -131,7 +131,7 @@ export default function OrdersPage() {
         })),
         total: calculateTotal(),
       });
-      if (res.data.status === 200 || res.status === 200) {
+      if (res.status === 201) {
         toast.success("Order created successfully");
         setShowReceipt(true);
       } else {
@@ -465,12 +465,12 @@ export default function OrdersPage() {
             orderDate={new Date()}
             companyAddress={user?.companyAddress}
             companyName={user?.companyAddress}
-            onClose={async () => {
+            onClose={() => {
               setShowReceipt(false);
               setOrderItems([]);
               setCustomerName('');
               setCustomerPhone('');
-              await fetchInventory();
+              fetchInventory();
             }}
           />
         )}
