@@ -39,6 +39,11 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     icon: LayoutDashboard,
   },
   {
+     title: "Users",
+    href: prefix_url+"/users",
+    icon: Users,
+  },
+  {
     title: "Inventory",
     href: prefix_url+"/inventory",
     icon: ShoppingBag,
@@ -60,16 +65,29 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   },
 ]
 
-React.useEffect(() => {
-  if (user?.role === "Admin") {
-  // push user on array after 0 index
-  navigationItems.splice(0, 0, {
-     title: "Users",
-    href: prefix_url+"/users",
-    icon: Users,
-  })
-}
-},[])
+const navigationItems2 = [
+  {
+    title: "Dashboard",
+    href: prefix_url,
+    icon: LayoutDashboard,
+  },
+  
+  {
+    title: "Inventory",
+    href: prefix_url+"/inventory",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Sales",
+    href: prefix_url+"/"+"sales",
+    icon: FileText,
+  },
+  {
+    title: "Settings",
+    href: prefix_url+"/settings",
+    icon: Settings,
+  },
+]
 
 
   return (
@@ -101,7 +119,7 @@ React.useEffect(() => {
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item) => {
+        {(user?.role === "Admin" ? navigationItems : navigationItems2).map((item) => {
           const isActive = pathname === item.href
           const Icon = item.icon
 

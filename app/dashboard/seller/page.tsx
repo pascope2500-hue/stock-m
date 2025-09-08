@@ -86,12 +86,12 @@ export default function DashboardPage() {
                     }
                     {
                       (stat.title === "Low Stock Products") &&(
-                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/admin/out-stock")}>View</span>
+                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/seller/out-stock")}>View</span>
                       )
                     }
                     {
                       (stat.title === "Expired Products") &&(
-                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/admin/expired")}>View</span>
+                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/seller/expired")}>View</span>
                       )
                     }
                   </div>

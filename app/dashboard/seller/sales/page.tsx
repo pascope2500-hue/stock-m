@@ -116,7 +116,7 @@ export default function OrdersPage() {
           >
             <Eye className="h-4 w-4" />
           </Button>
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             className="cursor-pointer"
@@ -145,7 +145,7 @@ export default function OrdersPage() {
             }}
           >
             <Trash2 className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
       ),
     },

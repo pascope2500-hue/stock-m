@@ -98,14 +98,14 @@ export default function OrdersPage() {
           >
             <Edit className="h-4 w-4" />
           </Button>
-          <Button
+          {/* <Button
             variant="ghost"
             className="cursor-pointer"
             size="sm"
             onClick={() => handleDelete(row.id)}
           >
             <Trash className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
       ),
     },
