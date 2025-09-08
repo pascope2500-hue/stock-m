@@ -12,7 +12,6 @@ export async function DELETE(request: NextRequest,  { params }: { params: Promis
                 }
             })
         }
-
          const { id } = await params;
         const sale = await prisma.sell.deleteMany({
             where: {
@@ -37,35 +36,31 @@ export async function DELETE(request: NextRequest,  { params }: { params: Promis
     }
 }
 
-enum Range {
-    "today" , "yesterday" ,"last_week" , "last_month", "all"
-} 
 
-export async function GET(request: NextRequest, params: { params: { range: Range } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     let startDate: Date | undefined;
-    const { range } = params.params;
-    
-    switch (range) {
-        case Range.today:
+    const { id } = await params;
+    switch (id) {
+        case 'today':
             startDate = new Date();
-            startDate.setHours(0, 0, 0, 0); // Start of today
+            startDate.setUTCHours(0, 0, 0, 0); // Start of today
             break;
-        case Range.yesterday:
+        case 'yesterday':
             startDate = new Date();
-            startDate.setDate(startDate.getDate() - 1);
-            startDate.setHours(0, 0, 0, 0); // Start of yesterday
+            startDate.setUTCDate(startDate.getUTCDate() - 1);
+            startDate.setUTCHours(0, 0, 0, 0); // Start of yesterday
             break;
-        case Range.last_week:
+        case 'last_week':
             startDate = new Date();
-            startDate.setDate(startDate.getDate() - 7);
-            startDate.setHours(0, 0, 0, 0); // Start of 7 days ago
+            startDate.setUTCDate(startDate.getUTCDate() - 7);
+            startDate.setUTCHours(0, 0, 0, 0); // Start of 7 days ago
             break;
-        case Range.last_month:
+        case 'last_month':
             startDate = new Date();
-            startDate.setDate(startDate.getDate() - 30);
-            startDate.setHours(0, 0, 0, 0); 
+            startDate.setUTCDate(startDate.getUTCDate() - 30);
+            startDate.setUTCHours(0, 0, 0, 0); 
             break;
-        case Range.all:
+        case 'all':
             startDate = undefined; // No date filter for "all"
             break;
         default:
@@ -81,7 +76,6 @@ export async function GET(request: NextRequest, params: { params: { range: Range
         if (!companyId || !userId || !role) {
             return NextResponse.json({ error: "Company ID, User ID, and Role are required" }, { status: 400 })
         }
-
         const sales = await prisma.sell.findMany({
             where: {
                 inventory: {
@@ -108,7 +102,6 @@ export async function GET(request: NextRequest, params: { params: { range: Range
                 }
             }
         });
-        
         return NextResponse.json(sales);
     } catch (error) {
         return NextResponse.json({ error: "An error occurred while fetching sales" }, { status: 500 })

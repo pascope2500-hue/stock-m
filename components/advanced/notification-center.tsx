@@ -76,11 +76,13 @@ export function NotificationCenter() {
 
   // Simulate real-time notifications
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() > 0.7) {
+    // const interval = setInterval(() => {
+    //   if (Math.random() > 0.7) {
       const fetchNot = async() => {
         await axios.get("/api/notification")
         .then((response) => {
+          console.log(response);
+          
           const newNotifications = response.data.map((notification: Notification) => ({
             id: notification.id,
             title: notification.title,
@@ -92,15 +94,15 @@ export function NotificationCenter() {
             entityId: notification.entityId,
           }))
 
-          setNotifications((prev) => [...prev, ...newNotifications].slice(0, 10))
+          setNotifications(newNotifications)
         })
       }
       fetchNot();
-      }
+      // }
       
-    }, 30000) // Check every 30 seconds
+    // }, 30000) // Check every 30 seconds
 
-    return () => clearInterval(interval)
+    // return () => clearInterval(interval)
   }, [])
 
   return (

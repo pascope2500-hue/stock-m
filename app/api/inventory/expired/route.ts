@@ -7,16 +7,16 @@ export async function GET(request: NextRequest) {
         if (!companyId) {
             return NextResponse.json({ error: "Missing company id" }, { status: 400 })
         }
-        const inStock = await prisma.inventory.findMany({
+        const expired = await prisma.inventory.findMany({
             where: {
                 companyId: parseInt(companyId),
-                quantity: {
-                    gt: 0
+                expirationDate: {
+                    lte: new Date()
                 }
             }
         });
 
-        return NextResponse.json(inStock);
+        return NextResponse.json(expired);
     } catch (err) {
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
     }

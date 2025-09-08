@@ -184,6 +184,8 @@ export default function OrdersPage() {
       toast.loading("Loading sales...", { id: "loading-sales" });
       const sales = await axios.get(`/api/sales/${type}`);
       setSales(sales.data);
+      console.log(sales.data);
+      
       toast.dismiss("loading-sales");
     } catch (error) {
       console.log(error);

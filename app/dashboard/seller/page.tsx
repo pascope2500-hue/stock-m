@@ -84,6 +84,16 @@ export default function DashboardPage() {
                         <span className="ml-1">from last month</span>
                       )
                     }
+                    {
+                      (stat.title === "Low Stock Products") &&(
+                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/admin/out-stock")}>View</span>
+                      )
+                    }
+                    {
+                      (stat.title === "Expired Products") &&(
+                        <span className="ml-1 bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => router.push("/dashboard/admin/expired")}>View</span>
+                      )
+                    }
                   </div>
                 </CardContent>
               </Card>

@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
             email: true
         }
     })
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setUTCDate(threeDaysAgo.getUTCDate() - 3);
     if (lowLevelStock.length > 0) {
         // create notification
         await prisma.$transaction(async (tx) => {
@@ -53,11 +55,19 @@ export async function GET(request: NextRequest) {
                     type: 'Warning',
                     entityId: lowLevelStock[0].id,
                     timestamp: {
-                        lte: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000)
+                        lte: threeDaysAgo
                     }
                 }
             });
-            if (latestNotification) {
+            const existNitification = await tx.notification.findFirst({
+                where: {
+                    companyId: parseInt(companyId),
+                    entity: 'Inventory',
+                    type: 'Warning',
+                    entityId: lowLevelStock[0].id,
+                }
+            })
+            if (!existNitification || latestNotification) {
                 await tx.notification.create({
                     data: {
                         companyId: parseInt(companyId),
@@ -70,19 +80,19 @@ export async function GET(request: NextRequest) {
                         entity: 'Inventory',
                     }
                 });
-                const emailText = `Low level stock for ${lowLevelStock[0].productName} ${lowLevelStock.length > 1 ? `and ${lowLevelStock.length - 1} other products` : ""}`;
-                const emailHtml = `
-            <h1>Low level stock</h1>
-            <p>${emailText}</p>
-            <p>Low level stock for ${lowLevelStock[0].productName} ${lowLevelStock.length > 1 ? `and ${lowLevelStock.length - 1} other products` : ""}</p>
-            <u>All products</u>
-            <ul>
-                ${lowLevelStock.map((product) => `<li>${product.productName} - ${product.quantity}</li>`).join("")}
-            </ul>
-            `
-                useremail.forEach(async (user) => {
-                    await sendEmail(user.email, "Low level stock", emailText, emailHtml);
-                });
+            //     const emailText = `Low level stock for ${lowLevelStock[0].productName} ${lowLevelStock.length > 1 ? `and ${lowLevelStock.length - 1} other products` : ""}`;
+            //     const emailHtml = `
+            // <h1>Low level stock</h1>
+            // <p>${emailText}</p>
+            // <p>Low level stock for ${lowLevelStock[0].productName} ${lowLevelStock.length > 1 ? `and ${lowLevelStock.length - 1} other products` : ""}</p>
+            // <u>All products</u>
+            // <ul>
+            //     ${lowLevelStock.map((product) => `<li>${product.productName} - ${product.quantity}</li>`).join("")}
+            // </ul>
+            // `
+            //     useremail.forEach(async (user) => {
+            //         await sendEmail(user.email, "Low level stock", emailText, emailHtml);
+            //     });
 
             }
         })
@@ -112,12 +122,20 @@ export async function GET(request: NextRequest) {
                     type: 'Warning',
                     entityId: expiredProducts[0].id,
                     timestamp: {
-                        lte: new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000)
+                        lte: threeDaysAgo
                     }
                 }
             });
 
-            if (latestNotification) {
+            const existNitification = await tx.notification.findFirst({
+                where: {
+                    companyId: parseInt(companyId),
+                    entity: 'Inventory',
+                    type: 'Warning',
+                    entityId: expiredProducts[0].id,
+                }
+            })
+            if (!existNitification || latestNotification) {
                 await prisma.notification.create({
                     data: {
                         companyId: parseInt(companyId),
@@ -131,17 +149,19 @@ export async function GET(request: NextRequest) {
                     }
                 });
 
-                const emailText = `Expired products ${expiredProducts[0].productName} ${expiredProducts.length > 1 ? `and ${expiredProducts.length - 1} other products` : ""}`;
-                const emailHtml = `
-            <h1>Expired products</h1>
-            <p>${emailText}</p>
-            <u>All products</u>
-            <ul>
-                ${expiredProducts.map((product) => `<li>${product.productName} - ${product.expirationDate}</li>`).join("")}
-            </ul>`
-                useremail.forEach(async (user) => {
-                    await sendEmail(user.email, "Expired products", emailText, emailHtml);
-                })
+
+
+            //     const emailText = `Expired products ${expiredProducts[0].productName} ${expiredProducts.length > 1 ? `and ${expiredProducts.length - 1} other products` : ""}`;
+            //     const emailHtml = `
+            // <h1>Expired products</h1>
+            // <p>${emailText}</p>
+            // <u>All products</u>
+            // <ul>
+            //     ${expiredProducts.map((product) => `<li>${product.productName} - ${product.expirationDate}</li>`).join("")}
+            // </ul>`
+            //     useremail.forEach(async (user) => {
+            //         await sendEmail(user.email, "Expired products", emailText, emailHtml);
+            //     })
             }
         })
     }
