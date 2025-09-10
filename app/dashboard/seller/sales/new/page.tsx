@@ -239,7 +239,7 @@ export default function OrdersPage() {
                         </div>
                         <div className="text-right ml-4">
                           <p className="font-medium">
-                            $
+                            Rwf
                             {parseInt(product.sellingPrice.toString()).toFixed(
                               2
                             )}
@@ -382,7 +382,7 @@ export default function OrdersPage() {
                             {item.product.productName}
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            ${parseInt(item.price.toString()).toFixed(2)} each
+                            Rwf {parseInt(item.price.toString()).toFixed(2)} each
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -415,7 +415,7 @@ export default function OrdersPage() {
                             +
                           </Button>
                           <p className="w-20 text-right font-medium">
-                            $
+                            Rwf
                             {(
                               parseInt(item.price.toString()) * item.quantity
                             ).toFixed(2)}
@@ -436,7 +436,7 @@ export default function OrdersPage() {
                   <div className="border-t pt-4">
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total:</span>
-                      <span>${calculateTotal().toFixed(2)}</span>
+                      <span>Rwf {calculateTotal().toFixed(2)}</span>
                     </div>
                   </div>
 
