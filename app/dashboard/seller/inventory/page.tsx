@@ -85,53 +85,53 @@ export default function OrdersPage() {
         return value ? new Date(value).toLocaleDateString() : "N/A";
       },
     },
-    {
-      key: "id",
-      header: "Actions",
-      isPrint: false,
-      render: (value, row) => (
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="cursor-pointer"
-            onClick={() => setSelectedInventory(row)}
-          >
-            <Edit className="h-4 w-4" />
-          </Button>
-          {/* <Button
-            variant="ghost"
-            className="cursor-pointer"
-            size="sm"
-            onClick={() => handleDelete(row.id)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button> */}
-        </div>
-      ),
-    },
+    // {
+    //   key: "id",
+    //   header: "Actions",
+    //   isPrint: false,
+    //   render: (value, row) => (
+    //     <div className="flex items-center space-x-2">
+    //       <Button
+    //         variant="ghost"
+    //         size="sm"
+    //         className="cursor-pointer"
+    //         onClick={() => setSelectedInventory(row)}
+    //       >
+    //         <Edit className="h-4 w-4" />
+    //       </Button>
+    //       <Button
+    //         variant="ghost"
+    //         className="cursor-pointer"
+    //         size="sm"
+    //         onClick={() => handleDelete(row.id)}
+    //       >
+    //         <Trash className="h-4 w-4" />
+    //       </Button>
+    //     </div>
+    //   ),
+    // },
   ];
 
-  const handleDelete = async (id: number) => {
-    toast.loading("Deleting inventory...", { id: "delete-inventory" });
-    const response = await axios.delete(`/api/inventory/${id}`);
-    if (response.status === 200) {
-      toast.success("Inventory deleted successfully");
-      fetchInventory();
-    } else {
-      toast.error("Failed to delete inventory");
-    }
-    toast.dismiss("delete-inventory");
-  };
+  // const handleDelete = async (id: number) => {
+  //   toast.loading("Deleting inventory...", { id: "delete-inventory" });
+  //   const response = await axios.delete(`/api/inventory/${id}`);
+  //   if (response.status === 200) {
+  //     toast.success("Inventory deleted successfully");
+  //     fetchInventory();
+  //   } else {
+  //     toast.error("Failed to delete inventory");
+  //   }
+  //   toast.dismiss("delete-inventory");
+  // };
   const onCloseModal = async () => {
     setSelectedInventory(null);
     setIsModalOpen(false);
   };
   
 
-  const handleExport = async (options: any) => {
-    window.print();
-  };
+  // const handleExport = async (options: any) => {
+  //   window.print();
+  // };
 
   const fetchInventory = async () => {
     toast.loading("Fetching inventory...", { id: "fetch-inventory" });
