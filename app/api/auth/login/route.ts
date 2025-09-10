@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
         firstName: true,
         lastName: true,
         companyId: true,
+        status: true,
         company: {
           select: {
             name: true,
@@ -34,6 +35,15 @@ export async function POST(req: NextRequest) {
         { message: "Invalid credentials" },
         { status: 401 }
       );
+    }
+
+    // if active
+    if (user.status !== "Active") {
+      return NextResponse.json(
+        { message: "Your account is not active, please contact the administrator" },
+        { status: 401 }
+      );
+      
     }
 
     const isPasswordValid = await verifyPassword(password, user.password);
