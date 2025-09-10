@@ -215,7 +215,7 @@ export default function OrdersPage() {
                 </Button> */}
                 <Button
                   className="cursor-pointer"
-                  onClick={() => router.push("/dashboard/admin/sales/new")}
+                  onClick={() => router.push("/dashboard/seller/sales/new")}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Order
